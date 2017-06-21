@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title><ui:insert name="insert-headtitle">Jenkins Monitor</ui:insert></title>
+
+	<h:outputStylesheet library="css" name="layout.css" />
+
+</h:head>
+
+<h:body>
+	<h:form>
+		<p:poll interval="#{monitorBacking.updateInterval}"
+			update="statusPanel" />
+
+		<h:panelGrid columns="1" id="statusPanel">
+			<h:panelGrid columns="3" cellpadding="0">
+				<h:panelGrid columns="3" cellpadding="0">
+					<p:outputLabel value="Updated:" styleClass="text_style_medium" /> <p:spacer width="10"/>
+					<p:outputLabel value="#{monitorBacking.lastUpdateTime}" styleClass="text_style_medium">
+						<f:converter converterId="customLocalDateTimeConverter" />
+					</p:outputLabel>
+				</h:panelGrid>
+				<p:spacer width="25"/>
+				<h:panelGrid columns="1" cellpadding="0">
+					<h:outputLabel for="updateIntervalSpinner" value="Interval (sec):" styleClass="text_style_small"/>
+					<p:spinner id="updateIntervalSpinner" value="#{monitorBacking.updateInterval}" min="2" size="5" />
+				</h:panelGrid>
+			</h:panelGrid>
+
+			<p:dataTable id="status_table" var="project"
+				value="#{monitorBacking.projectsStatus}" styleClass="style_white_border_white">
+					<p:column headerText="" styleClass="style_#{project.status}">
+					<h:outputText value="#{project.name}" styleClass="style_#{project.status} text_style"/>
+				</p:column>
+			</p:dataTable>
+		</h:panelGrid>
+
+	</h:form>
+</h:body>
+</html>
