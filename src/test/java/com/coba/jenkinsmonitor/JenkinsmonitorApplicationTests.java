@@ -1,4 +1,4 @@
-package com.coba.jenkinsmonitor;
+package de.felten.jenkinsmonitor;
 
 import org.junit.Assert;
 import org.junit.Test;
